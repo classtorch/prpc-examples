@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package = "/api/";
+import "google/api/annotations.proto";
+
+service User {
+  //添加用户
+  rpc AddUser(AddUserReq) returns (AddUserReply) {}
+  //获取用户列表
+  rpc GetUserList(GetUserListReq) returns (GetUserListReply) {
+    option (google.api.http) = {
+      get: "/user/list"
+      body: "*"
+      additional_bindings:[
+        {custom:{kind:"Content-Type", path:"application/json"}}]
+    };
+  }
+}
+
+message AddUserReq {
+  UserInfo user = 1;
+}
+
+message UserInfo {
+  string name = 1;
+  int32 age = 2;
+}
+
+message AddUserReply {}
+
+message GetUserListReq {
+  int32 age = 1;
+}
+
+message GetUserListReply {
+  int32 code = 1;
+  string msg = 2 ;
+  repeated UserInfo list = 3;
+}
