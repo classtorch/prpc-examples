@@ -13,16 +13,37 @@ service User {
         {custom:{kind:"Content-Type", path:"application/json"}}]
     };
   }
+  //获取单个用户信息
+  rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoReply) {
+    option (google.api.http) = {
+      get: "/users/{uid}/info"
+      body: "*"
+      additional_bindings:[
+        {custom:{kind:"Content-Type", path:"application/json"}}]
+    };
+  }
 }
 
 message GetUserListReq {
-  int32 age = 1;
+  string name = 1;
+  int32 age = 2;
 }
 
 message GetUserListReply {
   int32 code = 1;
   string msg = 2 ;
   repeated UserInfo list = 3;
+}
+
+message GetUserInfoReq {
+  string name = 1;
+  int32 age = 2;
+}
+
+message GetUserInfoReply {
+  int32 code = 1;
+  string msg = 2 ;
+  UserInfo info = 3;
 }
 
 message UserInfo {

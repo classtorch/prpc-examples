@@ -28,12 +28,17 @@ func Direct() {
 		return
 	}
 	userClient := api.NewUserClient(conn)
-	listReply, err := userClient.GetUserList(context.Background(), &api.GetUserListReq{Age: 18})
+	listReply, err := userClient.GetUserList(context.Background(), &api.GetUserListReq{Name: "张三", Age: 18})
 	if err != nil {
 		log.Error(err)
-		return
 	}
 	log.Info(listReply)
+	// api with variable param(rest api format)
+	infoReply, err := userClient.GetUserInfo(context.Background(), &api.GetUserInfoReq{Name: "张三"}, http.WithUrlParams(map[string]string{"uid": "123"}))
+	if err != nil {
+		log.Error(err)
+	}
+	log.Info(infoReply)
 }
 
 // direct mode, custom http impl
